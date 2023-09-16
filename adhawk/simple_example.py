@@ -1,6 +1,8 @@
 ''' Demonstrates how to subscribe to and handle data from gaze and event streams '''
 
+import mouse
 import time
+from scipy.spatial.transform import Rotation as R
 
 import adhawkapi
 import adhawkapi.frontend
@@ -36,23 +38,13 @@ class FrontendData:
         ''' Handles the latest et data '''
         if et_data.gaze is not None:
             xvec, yvec, zvec, vergence = et_data.gaze
-            print(f'Gaze={xvec:.2f},y={yvec:.2f},z={zvec:.2f},vergence={vergence:.2f}')
-
-        if et_data.eye_center is not None:
-            if et_data.eye_mask == adhawkapi.EyeMask.BINOCULAR:
-                rxvec, ryvec, rzvec, lxvec, lyvec, lzvec = et_data.eye_center
-                # print(f'Eye center: Left=(x={lxvec:.2f},y={lyvec:.2f},z={lzvec:.2f}) '
-                    #   f'Right=(x={rxvec:.2f},y={ryvec:.2f},z={rzvec:.2f})')
-
-        if et_data.pupil_diameter is not None:
-            if et_data.eye_mask == adhawkapi.EyeMask.BINOCULAR:
-                rdiameter, ldiameter = et_data.pupil_diameter
-                # print(f'Pupil diameter: Left={ldiameter:.2f} Right={rdiameter:.2f}')
+            mouse.move(100 * xvec + 800, 100 * -yvec + 380)
+            # print(f'Gaze={xvec:.2f},y={yvec:.2f},z={zvec:.2f},vergence={vergence:.2f}')
 
         if et_data.imu_quaternion is not None:
             if et_data.eye_mask == adhawkapi.EyeMask.BINOCULAR:
                 x, y, z, w = et_data.imu_quaternion
-                print(f'IMU: x={x:.2f},y={y:.2f},z={z:.2f},w={w:.2f}')
+                # print(f'IMU: x={x:.2f},y={y:.2f},z={z:.2f},w={w:.2f}')
 
     @staticmethod
     def _handle_events(event_type, timestamp, *args):
