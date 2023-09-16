@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 
+# Funtion to detect jumps
 def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
     left_foot_y = landmarks[28].y  # Adjust landmark IDs if needed
     right_foot_y = landmarks[29].y  # Adjust landmark IDs if needed
@@ -15,6 +16,21 @@ def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold)
 
     return False  # Jump not detected
 
+# Function to detect walks
+def detect_walks(landmarks, prev_left_foot_x, prev_right_foot_x, walk_threshold):
+    left_foot_x = landmarks[28].x  # Adjust landmark IDs if needed
+    right_foot_x = landmarks[29].x  # Adjust landmark IDs if needed
+
+    if prev_left_foot_x is not None and prev_right_foot_x is not None:
+        # Calculate the horizontal movement of both feet
+        left_foot_move = left_foot_x - prev_left_foot_x
+        right_foot_move = right_foot_x - prev_right_foot_x
+
+        if abs(left_foot_move) > walk_threshold and abs(right_foot_move) > walk_threshold:
+            return True  # Walk detected
+
+    return False  # Walk not detected
+
 def display_camera():
     mp_drawing = mp.solutions.drawing_utils
     mp_pose = mp.solutions.pose
@@ -26,6 +42,10 @@ def display_camera():
         prev_left_foot_y = None  # Initialize previous left foot position
         prev_right_foot_y = None  # Initialize previous right foot position
         jump_detected = False  # Initialize jump detection flag
+
+        prev_left_foot_x = None  # Initialize previous left foot position
+        prev_right_foot_x = None  # Initialize previous right foot position
+        walking_detected = False  # Initialize walking detection flag
 
         while cap.isOpened():
             ret, frame = cap.read()
