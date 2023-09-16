@@ -12,7 +12,7 @@ class FrontendData:
     def __init__(self):
         # Instantiate an API object
         # TODO: Update the device name to match your device
-        self._api = adhawkapi.frontend.FrontendApi(ble_device_name='ADHAWK MINDLINK-257')
+        self._api = adhawkapi.frontend.FrontendApi(ble_device_name='ADHAWK MINDLINK-300')
 
         # Tell the api that we wish to receive eye tracking data stream
         # with self._handle_et_data as the handler
@@ -36,18 +36,18 @@ class FrontendData:
         ''' Handles the latest et data '''
         if et_data.gaze is not None:
             xvec, yvec, zvec, vergence = et_data.gaze
-            print(f'Gaze={xvec:.2f},y={yvec:.2f},z={zvec:.2f},vergence={vergence:.2f}')
+            # print(f'Gaze={xvec:.2f},y={yvec:.2f},z={zvec:.2f},vergence={vergence:.2f}')
 
         if et_data.eye_center is not None:
             if et_data.eye_mask == adhawkapi.EyeMask.BINOCULAR:
                 rxvec, ryvec, rzvec, lxvec, lyvec, lzvec = et_data.eye_center
-                print(f'Eye center: Left=(x={lxvec:.2f},y={lyvec:.2f},z={lzvec:.2f}) '
-                      f'Right=(x={rxvec:.2f},y={ryvec:.2f},z={rzvec:.2f})')
+                # print(f'Eye center: Left=(x={lxvec:.2f},y={lyvec:.2f},z={lzvec:.2f}) '
+                    #   f'Right=(x={rxvec:.2f},y={ryvec:.2f},z={rzvec:.2f})')
 
         if et_data.pupil_diameter is not None:
             if et_data.eye_mask == adhawkapi.EyeMask.BINOCULAR:
                 rdiameter, ldiameter = et_data.pupil_diameter
-                print(f'Pupil diameter: Left={ldiameter:.2f} Right={rdiameter:.2f}')
+                # print(f'Pupil diameter: Left={ldiameter:.2f} Right={rdiameter:.2f}')
 
         if et_data.imu_quaternion is not None:
             if et_data.eye_mask == adhawkapi.EyeMask.BINOCULAR:
