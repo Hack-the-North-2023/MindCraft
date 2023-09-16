@@ -1,11 +1,12 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import keyboard
 
 # Funtion to detect jumps
 def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
-    left_foot_y = landmarks[28].y  # Adjust landmark IDs if needed
-    right_foot_y = landmarks[29].y  # Adjust landmark IDs if needed
+    left_foot_y = landmarks[28].y 
+    right_foot_y = landmarks[29].y  
 
     if prev_left_foot_y is not None and prev_right_foot_y is not None:
         # Calculate the vertical movement of both feet
@@ -19,8 +20,8 @@ def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold)
 
 # Function to detect walks
 def detect_walks(landmarks, prev_left_foot_y, prev_right_foot_y, walk_threshold):
-    left_foot_y = landmarks[28].y  # Adjust landmark IDs if needed
-    right_foot_y = landmarks[29].y  # Adjust landmark IDs if needed
+    left_foot_y = landmarks[28].y 
+    right_foot_y = landmarks[29].y 
 
     if prev_left_foot_y is not None and prev_right_foot_y is not None:
         # Calculate the vertical movement of both feet
@@ -74,6 +75,8 @@ def display_camera():
                 if detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
                     if not jump_detected:
                         print("Jump")
+                        keyboard.press("space")  # Simulate the space key press for jumping
+                        keyboard.release("space")  # Release the key
                         jump_detected = True
                 else:
                     jump_detected = False
@@ -83,6 +86,8 @@ def display_camera():
                     if detect_walks(landmarks, prev_left_foot_y, prev_right_foot_y, walk_threshold):
                         if not walking_detected:
                             print("Walking")
+                            keyboard.press("w")  # Simulate the space key press for jumping
+                            keyboard.release("w")  # Release the key
                             walking_detected = True
                     else:
                         walking_detected = False
@@ -99,14 +104,9 @@ def display_camera():
 
                 # if the wrist is below elbow, it's a down
 
-                if (left_wrist[1] > left_elbow[1]):
-                    print(left_wrist)
-                    print("left down")
-                else:
+                if (left_wrist[1] < left_elbow[1]):
                     print("left up")
-                if (right_wrist[1] > right_elbow[1]):
-                    print("right down")
-                else:
+                if (right_wrist[1] < right_elbow[1]):
                     print("right up")
 
             except:
