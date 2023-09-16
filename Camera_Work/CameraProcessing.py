@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
-import numpy as np
 import keyboard
+import mouse
 
 # Funtion to detect jumps
 def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
@@ -35,7 +35,7 @@ def detect_walks(landmarks, prev_left_foot_y, prev_right_foot_y, walk_threshold)
     return False
 
 def display_camera():
-    mp_drawing = mp.solutions.drawing_utils
+    mp_drawing = mp.solutions.drawing_utils 
     mp_pose = mp.solutions.pose
 
     cap = cv2.VideoCapture(0)
@@ -44,7 +44,7 @@ def display_camera():
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         prev_left_foot_y = None  # Initialize previous left foot position
         prev_right_foot_y = None  # Initialize previous right foot position
-        jump_detected = False  # Initialize jump detection flag
+        jump_detected = False  # Initialize jump detection flagright_movement == Truew
         walking_detected = False  # Initialize walking detection flag
 
         while cap.isOpened():
@@ -105,9 +105,11 @@ def display_camera():
                 # if the wrist is below elbow, it's a down
 
                 if (left_wrist[1] < left_elbow[1]):
-                    print("left up")
+                    print("place")
+                    mouse.click('left')
                 if (right_wrist[1] < right_elbow[1]):
-                    print("right up")
+                    print("destroy")
+                    mouse.click('right')
 
             except:
                 pass
