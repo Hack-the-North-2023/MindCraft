@@ -26,7 +26,7 @@ def detect_walks(landmarks, prev_left_foot_y, prev_right_foot_y, walk_threshold)
         left_foot_move = left_foot_y - prev_left_foot_y
         right_foot_move = right_foot_y - prev_right_foot_y
 
-        # Define a threshold for detecting walking (you can adjust this value)
+        # Define a threshold for detecting walking
         if abs(left_foot_move) > walk_threshold or abs(right_foot_move) > walk_threshold:
             return True  # Walking detected
         
