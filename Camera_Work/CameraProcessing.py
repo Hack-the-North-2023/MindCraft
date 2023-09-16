@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import numpy as np
 
 def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
     left_foot_y = landmarks[28].y  # Adjust landmark IDs if needed
@@ -57,6 +58,24 @@ def display_camera():
 
                 prev_left_foot_y = landmarks[28].y
                 prev_right_foot_y = landmarks[29].y
+
+                # Get coordinates
+                left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+                left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
+                right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+                right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+
+                # if the wrist is below elbow, it's a down
+
+                if (left_wrist[1] > left_elbow[1]):
+                    print(left_wrist)
+                    print("left down")
+                else:
+                    print("left up")
+                if (right_wrist[1] > right_elbow[1]):
+                    print("right down")
+                else:
+                    print("right up")
 
             except:
                 pass
