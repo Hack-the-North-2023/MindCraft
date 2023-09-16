@@ -1,19 +1,32 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
 import cv2
+import mediapipe as mp
 
-def displaycamera():
-    import cv2
-    import mediapipe as mp
-    import numpy as np
+def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
+    left_foot_y = landmarks[28].y  # Adjust landmark IDs if needed
+    right_foot_y = landmarks[29].y  # Adjust landmark IDs if needed
+
+    if prev_left_foot_y is not None and prev_right_foot_y is not None:
+        # Calculate the vertical movement of both feet
+        left_foot_move = left_foot_y - prev_left_foot_y
+        right_foot_move = right_foot_y - prev_right_foot_y
+
+        if left_foot_move > jump_threshold and right_foot_move > jump_threshold:
+            return True  # Jump detected
+
+    return False  # Jump not detected
+
+def display_camera():
     mp_drawing = mp.solutions.drawing_utils
     mp_pose = mp.solutions.pose
+
     cap = cv2.VideoCapture(0)
-    ## Setup mediapipe instance
+
+    # Setup mediapipe instance
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+        prev_left_foot_y = None  # Initialize previous left foot position
+        prev_right_foot_y = None  # Initialize previous right foot position
+        jump_detected = False  # Initialize jump detection flag
+
         while cap.isOpened():
             ret, frame = cap.read()
 
@@ -31,7 +44,20 @@ def displaycamera():
             # Extract landmarks
             try:
                 landmarks = results.pose_landmarks.landmark
-                print(landmarks)
+
+                # Define a threshold for detecting a jump (you can adjust this value)
+                jump_threshold = 0.07  # Adjust based on sensitivity
+
+                if detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
+                    if not jump_detected:
+                        print("Jump")
+                        jump_detected = True
+                else:
+                    jump_detected = False
+
+                prev_left_foot_y = landmarks[28].y
+                prev_right_foot_y = landmarks[29].y
+
             except:
                 pass
 
@@ -49,12 +75,5 @@ def displaycamera():
         cap.release()
         cv2.destroyAllWindows()
 
-
-# Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    displaycamera()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    display_camera()
