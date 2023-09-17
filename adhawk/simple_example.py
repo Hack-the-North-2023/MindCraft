@@ -37,7 +37,7 @@ class FrontendData:
         ''' Handles the latest et data '''
         if et_data.gaze is not None:
             xvec, yvec, zvec, vergence = et_data.gaze
-            mouse.move(100 * xvec + 800, 100 * -yvec + 380)
+            mouse.move(75 * xvec + 800, 75 * -yvec + 380)
             # print(f'Gaze={xvec:.2f},y={yvec:.2f},z={zvec:.2f},vergence={vergence:.2f}')
 
         if et_data.imu_quaternion is not None:
