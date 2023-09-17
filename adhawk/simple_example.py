@@ -2,7 +2,6 @@
 
 import mouse
 import time
-from scipy.spatial.transform import Rotation as R
 
 import adhawkapi
 import adhawkapi.frontend
