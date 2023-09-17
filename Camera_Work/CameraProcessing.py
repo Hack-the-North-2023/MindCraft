@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import keyboard
 import mouse
+import time
 
 # Funtion to detect jumps
 def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
@@ -73,7 +74,9 @@ def display_camera():
                 # Detect Jumps
                 if detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
                     if not jump_detected:
-                        keyboard.send("space")  # Simulate the space key press for jumping
+                        keyboard.press("space")  # Simulate the space key press for jumping
+                        time.sleep(0.1)
+                        keyboard.release("space")
                         jump_detected = True
                 else:
                     jump_detected = False
