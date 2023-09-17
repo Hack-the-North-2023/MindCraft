@@ -82,9 +82,10 @@ def display_camera():
                 if not jump_detected:
                     if detect_walks(landmarks, prev_left_foot_y, prev_right_foot_y, walk_threshold):
                         if not walking_detected:
-                            keyboard.send("w")  # Simulate the space key press for walking
+                            keyboard.press("w")  # Simulate the space key press for walking
                             walking_detected = True
                     else:
+                        keyboard.release("w")
                         walking_detected = False
 
                 # Updating previous position
