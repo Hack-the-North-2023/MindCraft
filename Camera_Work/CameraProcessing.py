@@ -112,7 +112,7 @@ def display_camera():
                 if (right_wrist[1] < right_elbow[1] and right_wrist[1] < left_wrist[1] ):
                     mouse.click('left')
                     time.sleep(0.5)
-
+                
             except:
                 pass
 
