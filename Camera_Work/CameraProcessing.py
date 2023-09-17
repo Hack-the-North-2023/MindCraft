@@ -2,6 +2,10 @@ import cv2
 import mediapipe as mp
 import keyboard
 import mouse
+import time
+
+# Initialize the last action dictionary
+last_action = {"place": 0, "destroy": 0}
 
 # Funtion to detect jumps
 def detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
@@ -64,7 +68,6 @@ def display_camera():
             # Extract landmarks
             try:
                 landmarks = results.pose_landmarks.landmark
-
                 # Define a threshold for detecting a jump 
                 jump_threshold = 0.06  # Adjust based on sensitivity
 
@@ -102,14 +105,21 @@ def display_camera():
                 right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
                 right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
 
-                # if the wrist is below elbow, it's a down
+                # if the wrist is above elbow, it's up
 
                 if (left_wrist[1] < left_elbow[1]):
-                    print("place")
-                    mouse.click('left')
+                    current_time = time.time()
+                    if "place" not in last_action or current_time - last_action["place"] >= 1:
+                        print("place")
+                        mouse.click('left')
+                        last_action["place"] = current_time
+
                 if (right_wrist[1] < right_elbow[1]):
-                    print("destroy")
-                    mouse.click('right')
+                    current_time = time.time()
+                    if "destroy" not in last_action or current_time - last_action["destroy"] >= 1:
+                        print("destroy")
+                        mouse.click('right')
+                        last_action["destroy"] = current_time
 
             except:
                 pass
