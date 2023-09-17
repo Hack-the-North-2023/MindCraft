@@ -77,7 +77,6 @@ def display_camera():
                 # Detect Jumps
                 if detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
                     if not jump_detected:
-                        print("Jump")
                         keyboard.press("space")  # Simulate the space key press for jumping
                         keyboard.release("space")  # Release the key
                         jump_detected = True
@@ -88,7 +87,6 @@ def display_camera():
                 if not jump_detected:
                     if detect_walks(landmarks, prev_left_foot_y, prev_right_foot_y, walk_threshold):
                         if not walking_detected:
-                            print("Walking")
                             keyboard.press("w")  # Simulate the space key press for jumping
                             keyboard.release("w")  # Release the key
                             walking_detected = True
@@ -110,14 +108,12 @@ def display_camera():
                 if (left_wrist[1] < left_elbow[1]):
                     current_time = time.time()
                     if "place" not in last_action or current_time - last_action["place"] >= 1:
-                        print("place")
                         mouse.click('left')
                         last_action["place"] = current_time
 
                 if (right_wrist[1] < right_elbow[1]):
                     current_time = time.time()
                     if "destroy" not in last_action or current_time - last_action["destroy"] >= 1:
-                        print("destroy")
                         mouse.click('right')
                         last_action["destroy"] = current_time
 
