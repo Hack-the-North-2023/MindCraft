@@ -108,13 +108,13 @@ def display_camera():
                 if (left_wrist[1] < left_elbow[1]):
                     current_time = time.time()
                     if "place" not in last_action or current_time - last_action["place"] >= 1:
-                        mouse.click('left')
+                        mouse.click('right')
                         last_action["place"] = current_time
 
                 if (right_wrist[1] < right_elbow[1]):
                     current_time = time.time()
                     if "destroy" not in last_action or current_time - last_action["destroy"] >= 1:
-                        mouse.click('right')
+                        mouse.click('left')
                         last_action["destroy"] = current_time
 
             except:
