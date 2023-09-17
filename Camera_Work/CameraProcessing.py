@@ -66,10 +66,10 @@ def display_camera():
             try:
                 landmarks = results.pose_landmarks.landmark
                 # Define a threshold for detecting a jump 
-                jump_threshold = 0.06  # Adjust based on sensitivity
+                jump_threshold = 0.05  # Adjust based on sensitivity
 
                 # Define a threshold for detecting walking in place
-                walk_threshold = 0.03  # Adjust based on sensitivity
+                walk_threshold = 0.02  # Adjust based on sensitivity
 
                 # Detect Jumps
                 if detect_jumps(landmarks, prev_left_foot_y, prev_right_foot_y, jump_threshold):
@@ -104,14 +104,16 @@ def display_camera():
                 # if the wrist is above elbow, it's up
                 # and the right arm is below the left wrist
                 if (left_wrist[1] < left_elbow[1] and right_wrist[1] > left_wrist[1]):
-                    mouse.click('right')
-                    time.sleep(0.5)
+                    mouse.hold('left')
+                else:
+                    mouse.release('left')
 
                 # if the right wrist is above elbow, it's up
                 # and the left arm is below the right wrist 
                 if (right_wrist[1] < right_elbow[1] and right_wrist[1] < left_wrist[1] ):
-                    mouse.click('left')
-                    time.sleep(0.5)
+                    mouse.hold('right')
+                else:
+                    mouse.release('right')
                 
             except:
                 pass
