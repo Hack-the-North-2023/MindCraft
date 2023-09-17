@@ -102,12 +102,13 @@ def display_camera():
                 right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
 
                 # if the wrist is above elbow, it's up
-
                 if (left_wrist[1] < left_elbow[1]):
                         mouse.click('right')
+                        time.sleep(0.5)
 
                 if (right_wrist[1] < right_elbow[1]):
                         mouse.click('left')
+                        time.sleep(0.5)
 
             except:
                 pass
